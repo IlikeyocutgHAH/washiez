@@ -1,0 +1,30 @@
+local groupId = 10261023
+local plr = game:GetService("Players").LocalPlayer
+local groupService = game:GetService("GroupService")
+
+local success, groupInfo = pcall(function()
+    return groupService:GetGroupInfoAsync(groupId)
+end)
+
+if success and groupInfo then
+    local _rank = 0
+    local _role = ""
+
+    for _, role in pairs(groupInfo.Roles) do
+        if role.Rank > _rank then
+            _rank = role.Rank
+            _role = role.Name
+        end
+    end
+
+	print(_role .. " | " .. _rank)
+
+    plr.GroupInfo.Rank.Value = _rank
+    plr.GroupInfo.Role.Value = _role
+
+	for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainUI.Menus.StaffMenusFolder:GetChildren()) do
+		
+			v.Active = true
+		
+	end
+end
